@@ -14,3 +14,5 @@ for c in str:
 for i in f:
     for j in i:
         print(dict[j], end="")
+        
+#*:1,#:2,@:3,$:4
