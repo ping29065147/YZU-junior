@@ -231,7 +231,7 @@ void multiplication( int *multiplicand, int *multiplier, int *product,
                      int multiplicandDegree, int multiplierDegree, int productDegree )
 {
     for (int i = 0; i <= multiplicandDegree; ++i) for (int j = 0; j <= multiplierDegree; ++j) product[i + j] += multiplicand[i] * multiplier[j];
-    while (product[productDegree] && productDegree) --productDegree;
+    while (!product[productDegree] && productDegree) --productDegree;
 }
 
 // quotient = dividend / divisor; remainder = dividend % divisor
