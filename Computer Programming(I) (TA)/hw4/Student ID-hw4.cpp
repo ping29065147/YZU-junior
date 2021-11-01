@@ -122,7 +122,7 @@ void decrement(int hugeInt[], int size)
 // minuend -= subtrahend provided that minuend > subtrahend
 void subtraction(int minuend[], int subtrahend[], int& minuendSize, int subtrahendSize)
 {
-    for (int i = 0; i < minuendSize; ++i) minuend[i] -= subtrahend[i];
+    for (int i = 0; i < subtrahendSize; ++i) minuend[i] -= subtrahend[i];
     for (int i = 0; i < minuendSize; ++i) if (minuend[i] < 0) --minuend[i + 1], minuend[i] += 10;
     while (minuend[minuendSize - 1] == 0 && minuendSize > 1) --minuendSize;
 }
