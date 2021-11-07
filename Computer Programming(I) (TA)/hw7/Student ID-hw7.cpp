@@ -24,17 +24,9 @@ void output( int *coefficient, int *exponent, int size );
 // returns true if and only if the specified polynomial has at least a zero term
 bool hasZeroTerm( int *coefficient, int size );
 
-// returns true if and only if the specified polynomial is zero polynomial
-bool isZero( int size );
-
 // returns true if and only if polynomial1 == polynomial2
 bool equal( int *coefficient1, int *exponent1, int size1,
             int *coefficient2, int *exponent2, int size2 );
-
-// a recursive function that returns true if and only if polynomial1 == polynomial2
-// provided that size1 == size2
-bool recursiveEqual( int *coefficient1, int *exponent1,
-                     int *coefficient2, int *exponent2, int last );
 
 // polynomial1 = -polynomial2
 void minus( int *&coefficient1, int *&exponent1, int &size1,
@@ -99,13 +91,13 @@ int main()
       // input dividend and divisor from the file Polynomials.dat
       input( inFile, dividendCoef, dividendExpon, dividendSize );
       input( inFile, divisorCoef, divisorExpon, divisorSize );
-/*
+/**/
       cout << "dividend:  ";
       output( dividendCoef, dividendExpon, dividendSize );
 
       cout << " divisor:  ";
       output( divisorCoef, divisorExpon, divisorSize );
-*/
+
       // quotient = dividend / divisor; remainder = dividend % divisor
       // thus, dividend == divisor * quotient + remainder
       division( dividendCoef, dividendExpon, dividendSize,
@@ -113,34 +105,40 @@ int main()
                 quotientCoef, quotientExpon, quotientSize,
                 remainderCoef, remainderExpon, remainderSize );
 
-/*
+/**/
       cout << "quotient:  ";
       output( quotientCoef, quotientExpon, quotientSize );
       cout << endl;
-*/
 
-      if( hasZeroTerm( quotientCoef, quotientSize ) )
-         cout << "quotient has at least a zero term!\n";
+      if( quotientSize > 0 )
+      {
+         if( hasZeroTerm( quotientCoef, quotientSize ) )
+            cout << "quotient has at least a zero term!\n";
+         else
+         {
+            // buffer = divisor * quotient
+            multiplication( divisorCoef, divisorExpon, divisorSize,
+                            quotientCoef, quotientExpon, quotientSize,
+                            bufferCoef, bufferExpon, bufferSize );
 
-      // buffer = divisor * quotient
-      multiplication( divisorCoef, divisorExpon, divisorSize,
-                      quotientCoef, quotientExpon, quotientSize,
-                      bufferCoef, bufferExpon, bufferSize );
+            if( hasZeroTerm( bufferCoef, bufferSize ) )
+               cout << "buffer has at least a zero term!\n";
+            else
+            {
+               // buffer = buffer + remainder = divisor * quotient + remainder
+               addition( bufferCoef, bufferExpon, bufferSize,
+                         remainderCoef, remainderExpon, remainderSize );
 
-      if( hasZeroTerm( bufferCoef, bufferSize ) )
-         cout << "buffer has at least a zero term!\n";
-
-      // buffer = buffer + remainder = divisor * quotient + remainder
-      addition( bufferCoef, bufferExpon, bufferSize,
-                remainderCoef, remainderExpon, remainderSize );
-
-      if( hasZeroTerm( bufferCoef, bufferSize ) )
-         cout << "buffer has at least a zero term!\n";
-
-      // if buffer != dividend, an error occurred!
-      if( equal( bufferCoef, bufferExpon, bufferSize,
-                 dividendCoef, dividendExpon, dividendSize ) )
-         numErrors--;
+               if( hasZeroTerm( bufferCoef, bufferSize ) )
+                  cout << "buffer has at least a zero term!\n";
+               else
+                  // if buffer != dividend, an error occurred!
+                  if( equal( bufferCoef, bufferExpon, bufferSize,
+                      dividendCoef, dividendExpon, dividendSize ) )
+                      numErrors--;
+            }
+         }
+      }
 
       reset( dividendCoef, dividendExpon, dividendSize );
       reset( divisorCoef, divisorExpon, divisorSize );
@@ -199,7 +197,7 @@ void input( istream &inFile, int *&coefficient, int *&exponent, int &size )
 void output( int *coefficient, int *exponent, int size )
 {
    // the specified polynomial is zero polynomial
-   if( isZero( size ) )
+   if( size == 0 )
       cout << 0;
    else
    {
@@ -247,15 +245,9 @@ bool hasZeroTerm( int *coefficient, int size )
    return false;
 }
 
-// returns true if and only if the specified polynomial is zero polynomial
-bool isZero( int size )
-{
-   return ( size == 0 );
-}
-
 // returns true if and only if polynomial1 == polynomial2
-bool equal( int coefficient1[], int exponent1[], int size1,
-            int coefficient2[], int exponent2[], int size2 )
+bool equal( int *coefficient1, int *exponent1, int size1,
+            int *coefficient2, int *exponent2, int size2 )
 {
    if( size1 != size2 )
       return false;
@@ -365,17 +357,21 @@ void multiplication( int *multiplicandCoef, int *multiplicandExpon, int multipli
    int *bufferCoef = new int[ bufferSize ]();
    int *bufferExpon = new int[ bufferSize ]();
 
-   //----------
-   for (int i = 0; i < multiplierSize; ++i)
+   // if( multiplicand != 0 && multiplier != 0 )
+   if( multiplicandSize != 0 && multiplierSize != 0 )
    {
-       for (int j = 0; j < multiplicandSize; ++j)
+       //----------
+       for (int i = 0; i < multiplierSize; ++i)
        {
-           bufferExpon[j] = multiplicandExpon[j] + multiplierExpon[i];
-           bufferCoef[j] = multiplicandCoef[j] * multiplierCoef[i];
+           for (int j = 0; j < multiplicandSize; ++j)
+           {
+               bufferExpon[j] = multiplicandExpon[j] + multiplierExpon[i];
+               bufferCoef[j] = multiplicandCoef[j] * multiplierCoef[i];
+           }
+           addition(productCoef, productExpon, productSize, bufferCoef, bufferExpon, bufferSize);
        }
-       addition(productCoef, productExpon, productSize, bufferCoef, bufferExpon, bufferSize);
+       //----------
    }
-   //----------
 
    delete[] bufferCoef;
    delete[] bufferExpon;
@@ -414,7 +410,7 @@ void division( int *dividendCoef, int *dividendExpon, int dividendSize,
    quotientSize = 0;
 
    //----------
-   while (!isZero(remainderSize) && remainderExpon[0] >= divisorExpon[0])
+   while (remainderSize != 0 && remainderExpon[0] >= divisorExpon[0])
    {
        tempExpon[quotientSize] = remainderExpon[0] - divisorExpon[0];
        tempCoef[quotientSize] = remainderCoef[0] / divisorCoef[0];
@@ -424,7 +420,7 @@ void division( int *dividendCoef, int *dividendExpon, int dividendSize,
 
        multiplication(divisorCoef, divisorExpon, divisorSize, monomialCoef, monomialExpon, monomialSize, bufferCoef, bufferExpon, bufferSize);
        subtraction(remainderCoef, remainderExpon, remainderSize, bufferCoef, bufferExpon, bufferSize);
-       
+
        ++quotientSize;
    }
    //----------
