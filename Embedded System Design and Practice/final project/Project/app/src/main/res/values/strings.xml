@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">NP.edu</string>
+
+    <string name="PProblem">P problem</string>
+    <string name="NPCOMproblem">NP Complete</string>
+    <string name="NPHARDproblem">NP Hard</string>
+    <string name="UnsolvedProblem">Unsolved problem</string>
+    <string name="INTRACTABLEProblem">Intractable problem</string>
+
+
+
+    <string name="PProblemIntro">在 <font ><b>polynomial time (O(n^k), k屬於常數)</b></font> 可以解決的問題。</string>
+    <string name="NPCOMProblemIntro"><b>NP</b> : 一個演算法用 NTM 來做計算所需時間是 polynomial time，相當於 : 問題的解有辦法在 DTM polynomial time 下被驗證，P 包含在 NP 裡。
+        \n\n<b>NP-complete</b> : 還沒有找到 polynomial time 的解，但是可以在 polynomial time 被驗證的問題。NP 與 NP-hard 的交集。</string>
+    <string name="NPHARDProblemIntro"><b>NP</b> : 一個演算法用 NTM 來做計算所需時間是 polynomial time，相當於 : 問題的解有辦法在 DTM polynomial time 下被驗證，P 包含在 NP 裡。
+        \n\n<b>*NTM</b> : 給予 Turing machine 某個 state 和某個 symbol 下，它的下一步有多種可能。
+        \n\n<b>*DTM</b> : 給予 Turing machine 某個 state 和某個 symbol 下，它的下一步只有一種可能。
+    \n\n<b>NP-hard</b> : 還沒有找到 polynomial time 的解，也不確定能不能在 polynomial time 被驗證的問題所有的。NP 問題都可以用 DTM 在 polynomial time 內化約成為這個「問題」，NP-hard 不一定屬於 NP。</string>
+    <string name="UnsolvedProblemIntro">無法解決的問題。</string>
+    <string name="INTRACTABLEProblemIntro">沒有存在任何有效率的演算法的問題 (需要O(2^n)以上才能解決的問題) 或 (超過 polynomial time 才能解決的問題)。</string>
+
+
+
+    <string-array name="PProblem_array">
+        <item>Sorting problem</item>
+    </string-array>
+    <string-array name="NPCOMproblem_array">
+        <item>0/1 Knapsack problem</item>
+        <item>Travelling salesman problem</item>
+        <item>Unbounded Knapsack Problem</item>
+        <item>Bounded Knapsack Problem</item>
+        <item>Money Changing problem</item>
+        <item>Partition problem</item>
+        <item>Boolean satisfiability problem</item>
+        <item>Clique problem</item>
+        <item>Covering problem</item>
+        <item>Directed Hamiltonian cycle</item>
+        <item>Undirected Hamiltonian cycle</item>
+    </string-array>
+    <string-array name="NPHARDproblem_array">
+        <item>0-1 Integer programming</item>
+        <item>Mixed integer programming</item>
+    </string-array>
+    <string-array name="UnsolvedProblem_array">
+        <item>Halting problem</item>
+        <item>P / NP problem</item>
+        <item>Barber paradox</item>
+        <item>Omnipotence paradox</item>
+    </string-array>
+    <string-array name="INTRACTABLEProblem_array">
+        <item>Tower of Hanoi problem</item>
+        <item>Brute-force algorithm</item>
+    </string-array>
+
+
+
+    <string-array name="PProblemSummary_array">
+        <item>將一串數列進行排序。根據不同的演算法，時間複雜度會落在 O(n^2) ~ O(n log n) 中</item>
+    </string-array>
+    <string-array name="NPCOMproblemSummary_array">
+        <item>給定一組物品，每種物品有自己的重量和價格且只有一個，在限定的總重量內，我們如何選擇，才能使得物品的總價格最高。</item>
+        <item>給一組城市和每一個城市之間的單向距離，找出從起點城市出發，經過所有城市且不重複回到起點城市的最短距離和。</item>
+        <item>給定一組物品，每種物品有自己的重量和價格且無限制數量，在限定的總重量內，我們如何選擇，才能使得物品的總價格最高。</item>
+        <item>給定一組物品，每種物品有自己的重量和價格且有限制數量，在限定的總重量內，我們如何選擇，才能使得物品的總價格最高。</item>
+        <item>給定一個幣值的集合，給定一個目標金錢的數值，求使用集合內幣值來湊出目標金錢共有幾種方法？以及零錢的最少數目為何？</item>
+        <item>給定一個集合，將集合內的元素分成兩個子集合，兩個子集合中的元素相加要相等。</item>
+        <item>可滿足性是用來解決給定的真值方程式，是否存在一組變數賦值，使問題為可滿足。布林可滿足性問題屬於決定性問題，也是第一個被證明屬於NP-complete的問題。</item>
+        <item>分團問題是問一個圖中是否有大小是k以上的團。任意挑出k個點，我們可以簡單的判斷出這k個點是不是一個團。</item>
+        <item>圖的覆蓋是一些頂點（或邊）的集合，使得圖中的每一條邊（每一個頂點）都至少接觸集合中的一個頂點（邊）。尋找最小的頂點覆蓋的問題稱為頂點覆蓋問題。</item>
+        <item>給定一個有向、無權重的圖。請問這個圖是否存在一個經過所有點恰好一次的簡單路徑。</item>
+        <item>給定一個無向、無權重的圖。請問這個圖是否存在一個經過所有點恰好一次的簡單路徑。</item>
+    </string-array>
+    <string-array name="NPHARDproblemSummary_array">
+        <item>0-1規劃是決策變數僅取值0或1的一類特殊的整數規劃。在處理經濟管理中某些規劃問題時，若決策變數採用 0-1變數即邏輯變數，可把本來需要分別各種情況加以討論的問題統一在一個問題中討論。</item>
+        <item>只要求當中某幾個未知數為整數的線性規劃問題叫做混合整數規劃。</item>
+    </string-array>
+    <string-array name="UnsolvedProblemSummary_array">
+        <item>是否存在一個程式P，對於任意輸入的程式w，能夠判斷w會在有限時間內結束或者無窮迴圈。</item>
+        <item>這個問題是七個千禧年大獎難題之一，複雜度 P 與 NP 是否為等價的？</item>
+        <item>小城裡的理髮師放出豪言：他要為城裡人刮鬍子，而且一定只要為城裡所有「不為自己刮鬍子的人」刮鬍子。\n但問題是：理髮師該為自己刮鬍子嗎？如果他為自己刮鬍子，那麼按照他的豪言「只為城裡所有不為自己刮鬍子的人刮鬍子」他不應該為自己刮鬍子；但如果他不為自己刮鬍子，同樣按照他的豪言「一定要為城裡所有不為自己刮鬍子的人刮鬍子」他又應該為自己刮鬍子。</item>
+        <item>如果任一個體是「全能」的話，那麼他就一定能夠制訂出一個他不能履行的工作，如此他就不會是全能的；反之，若一個「全能」的個體不能夠制訂出一個他不能履行的工作，如此他也不會是全能的。\n因此，無論他能否制訂這項工作，他都不會是全能的。</item>
+    </string-array>
+    <string-array name="INTRACTABLEProblemSummary_array">
+        <item>有三根杆子A，B，C。A杆上有 N 個 (N>1) 穿孔圓盤，圓盤的尺寸由下到上變小。要求按下列規則將所有圓盤移至 C 杆：\n1.每次只能移動一個圓盤。\n2.大盤不能疊在小盤上面。\n\n求如何移？最少要移動多少次？</item>
+        <item>暴力搜尋或者說窮舉搜尋，也稱為生成與測試，是一種非常低效的解決問題的技術，方法包括了系統地列舉解決方案的所有可能候選項，以及檢查每個候選項是否符合問題描述。</item>
+    </string-array>
+
+
+
+</resources>

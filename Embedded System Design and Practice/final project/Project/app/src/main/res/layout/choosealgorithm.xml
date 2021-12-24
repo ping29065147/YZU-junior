@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@drawable/w11">
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:backgroundTint="#F5F5DC"
+        android:text="返回"
+        android:textColor="#000000"
+        android:translationY="620dp" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:backgroundTint="#F5F5DC"
+        android:text="確定"
+        android:textColor="#000000"
+        android:translationX="210dp"
+        android:translationY="620dp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@color/beige"
+        android:backgroundTint="#F5F5DC"
+
+        android:spinnerMode="dialog"
+        android:textColor="#000000"
+        android:translationY="100dp" />
+
+</RelativeLayout>

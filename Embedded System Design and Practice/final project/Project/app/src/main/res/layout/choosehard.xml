@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@drawable/w11">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:background="@drawable/w2"
+        android:translationY="40dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/w2"
+
+                android:gravity="center"
+                android:text="選擇難度"
+                android:textColor="#F5F5DC"
+                android:textSize="34sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:backgroundTint="#F5F5DC"
+        android:text="返回"
+        android:textColor="#000000"
+        android:translationY="620dp" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:backgroundTint="#F5F5DC"
+        android:text="開始"
+        android:textColor="#000000"
+        android:translationX="210dp"
+        android:translationY="620dp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/w2"
+        android:max="3"
+        android:min="1"
+        android:progress="2"
+        android:thumb="@drawable/seekbar1"
+        android:translationY="350dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:translationY="300dp" />
+
+</RelativeLayout>
