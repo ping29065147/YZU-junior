@@ -1,0 +1,218 @@
+#!/usr/bin/python 
+#+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+#|R|a|s|p|b|e|r|r|y|P|i|.|c|o|m|.|t|w|
+#+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+# Copyright (c) 2016, raspberrypi.com.tw
+# All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+#
+# move_car.py
+# control car with argument [w=forward/a=left/s=backward/d=right]
+# usage: sudo python move_car.py [w/a/s/d]
+#
+# Author : sosorry
+# Date   : 08/01/2015
+
+from gtts import gTTS
+import RPi.GPIO as GPIO
+import time
+import os
+import readchar
+import speech_recognition as sr
+import threading
+import subprocess
+#obtain audio from the microphone
+r=sr.Recognizer()
+
+Motor_R1_Pin = 16
+Motor_R2_Pin = 18
+Motor_L1_Pin = 15
+Motor_L2_Pin = 13
+t = 0.5
+voll = "-2000"
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(Motor_R1_Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(Motor_R2_Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(Motor_L1_Pin, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(Motor_L2_Pin, GPIO.OUT, initial=GPIO.LOW)
+
+
+
+def stop():
+    GPIO.output(Motor_R1_Pin, False)
+    GPIO.output(Motor_R2_Pin, False)
+    GPIO.output(Motor_L1_Pin, False)
+    GPIO.output(Motor_L2_Pin, False)
+
+
+def forward():
+    GPIO.output(Motor_R1_Pin, True)
+    GPIO.output(Motor_R2_Pin, False)
+    GPIO.output(Motor_L1_Pin, True)
+    GPIO.output(Motor_L2_Pin, False)
+    time.sleep(t)
+    stop()
+
+
+def backward():
+    GPIO.output(Motor_R1_Pin, False)
+    GPIO.output(Motor_R2_Pin, True)
+    GPIO.output(Motor_L1_Pin, False)
+    GPIO.output(Motor_L2_Pin, True)
+    time.sleep(t)
+    stop()
+
+
+def turnRight():
+    GPIO.output(Motor_R1_Pin, False)
+    GPIO.output(Motor_R2_Pin, False)
+    GPIO.output(Motor_L1_Pin, True)
+    GPIO.output(Motor_L2_Pin, False)
+    time.sleep(t)
+    stop()
+
+def turnLeft():
+    GPIO.output(Motor_R1_Pin, True)
+    GPIO.output(Motor_R2_Pin, False)
+    GPIO.output(Motor_L1_Pin, False)
+    GPIO.output(Motor_L2_Pin, False)
+    time.sleep(t)
+    stop()
+
+def set_interval(func,sec):
+    def func_wrapper():
+#        set_interval(func,sec)
+        func()
+    t = threading.Timer(sec, func_wrapper)
+    t.start()
+    return t
+
+def call():
+    tts = gTTS(text='時間到了', lang='zh-TW')
+    tts.save('timer.mp3')
+    os.system('omxplayer --vol -100  -o local -p timer.mp3 > /dev/null 2>&1')
+
+#proc1 = 0 
+
+if __name__ == "__main__":
+
+#    print("Press 'q' to quit...")
+#    os.system('omxplayer --vol -100  -o local -p 私奔到月球.mp3 > /dev/null 2>&1')
+#    set_interval(call,3)
+
+    
+    
+    #proc1 = subprocess.Popen(args=['omxplayer','--no-osd','--loop','-b','--aspect-mode','fill','私奔到月球.mp3'])
+
+    while True:
+
+        with sr.Microphone(device_index=2,sample_rate = 48000) as source:
+            print("Please wait. Calibrating microphone...")
+#listen for 1 seconds and create the ambient noise energy level
+#            r.adjust_for_ambient_noise(source, duration=1)
+            r.energy_threshold=4000
+            print("Say something!")
+            audio=r.listen(source)
+           # subprocess.call(['pkill','-P',str(proc1.pid)])
+          #  proc1.kill()
+# recognize speech using Google Speech Recognition
+
+        try:
+            print("Google Speech Recognition thinks you said:")
+            words = r.recognize_google(audio, language='zh-TW')
+            print(words)
+            if "前進" in words:
+                tts = gTTS(text='前進中', lang='zh-TW')
+                tts.save('car.mp3')
+                os.system('omxplayer --vol -100  -o local -p car.mp3 > /dev/null 2>&1')
+                print("\n前進中\n")
+                forward()
+            elif "左轉" in words:
+                tts = gTTS(text='車輛左轉', lang='zh-TW')
+                tts.save('car.mp3')
+                os.system('omxplayer --vol -100  -o local -p car.mp3 > /dev/null 2>&1')
+                turnLeft()
+                print("\n車輛左轉\n")
+saasd            elif "右轉" in words:
+                tts = gTTS(text='車輛右轉', lang='zh-TW')
+                tts.save('car.mp3')
+                os.system('omxplayer --vol -100  -o local -p car.mp3 > /dev/null 2>&1')
+                turnRight()
+                print("\n車輛右轉\n")
+            elif "後退" in words:
+                tts = gTTS(text='倒車中', lang='zh-TW')
+                tts.save('car.mp3')
+                os.system('omxplayer --vol -100  -o local -p car.mp3 > /dev/null 2>&1')
+                backward()
+                print("\n倒車中，後方車輛請注意\n")
+            elif "結束" in words:
+                print("\nQuit")
+                GPIO.cleanup()
+                quit()
+            elif "提醒" in words:
+                time = ""
+                thread_time = 0
+                index = 0
+                if "秒" in words:
+                    index = words.find('秒')
+                    print("index: ",index)
+                    for i in range((int)(index-1), -1, -1):
+                        if words[i].isdigit(): 
+                            time = words[i]+time
+                        else:
+                            break;
+                    thread_time += int(time)
+                if "分" in words:
+                    index = words.find('分')
+                    time = ""
+                    print("index: ",index)
+                    for i in range((int)(index-1), -1, -1):
+                        if words[i].isdigit():
+                            time = words[i]+time
+                        else:
+                            break;
+                    thread_time += int(time)*60
+                print('已設定',thread_time,'秒後的鬧鐘')
+                set_interval(call,int(thread_time))
+            elif "放音樂" in words or "播音樂" in words:
+                proc1 = subprocess.Popen(args=['omxplayer','--no-osd','-b','--aspect-mode','fill','私奔到月球.mp3','--vol',voll])
+            elif "停止" in words:
+                subprocess.call(['pkill','-P',str(proc1.pid)])
+                proc1.kill()
+            elif "大聲" in words:
+                v = "-1000"
+                os.system("omxplayer --vol",v)
+
+
+#                time.sleep(2)
+#                tts = gTTS(text='起床了', lang='zh-TW')
+#                tts.save('car.mp3')
+#                os.system('omxplayer --vol -100  -o local -p car.mp3 > /dev/null 2>&1')
+        except sr.UnknownValueError:
+            print("Google Speech Recognition could not understand audio")
+        except sr.RequestError as e:
+            print("No response from Google Speech Recognition service: {0}".format(e))
+
+
+"""
+        ch = readchar.readkey()
+
+        if ch == 'w':
+            forward()
+
+        elif ch == 's':
+            backward()
+
+        elif ch == 'd':
+            turnRight()
+
+        elif ch == 'a':
+            turnLeft()
+
+        elif ch == 'q':
+            print("\nQuit")
+            GPIO.cleanup()
+            quit()
+"""
